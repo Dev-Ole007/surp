@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pra Elivanda ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --rose-1: #f6c3d0;
+      --rose-2: #ef8fa9;
+      --rose-3: #d84f74;
+      --wine: #7f1d3f;
+      --paper: #fff8fb;
+      --text-light: #fff7fa;
+      --card: rgba(255, 255, 255, 0.16);
+      --card-border: rgba(255, 255, 255, 0.35);
+      --shadow: 0 18px 40px rgba(71, 7, 26, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--text-light);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.24), transparent 35%),
+        radial-gradient(circle at 80% 0%, rgba(255, 238, 244, 0.22), transparent 28%),
+        radial-gradient(circle at 70% 90%, rgba(255, 226, 235, 0.22), transparent 28%),
+        linear-gradient(140deg, var(--rose-3) 0%, var(--rose-2) 45%, var(--rose-1) 100%);
+      overflow-x: hidden;
+      position: relative;
+      animation: ambientShift 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientShift {
+      from {
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+      }
+      to {
+        background-position: 10% 4%, -8% 5%, -6% -5%, 100% 100%;
+      }
+    }
+
+    .glow {
+      pointer-events: none;
+      position: fixed;
+      inset: -25vmax;
+      background: conic-gradient(from 180deg at 50% 50%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.2));
+      opacity: 0.28;
+      animation: spin 20s linear infinite;
+      filter: blur(50px);
+      z-index: 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .container {
+      max-width: 900px;
+      width: min(92vw, 900px);
+      margin: 0 auto;
+      padding: 44px 14px 72px;
+      position: relative;
+      z-index: 1;
+    }
+
+    body.locked {
+      overflow: hidden;
+    }
+
+    body.locked #romanticContent {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      background: rgba(36, 7, 19, 0.55);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+
+    .lock-screen.hidden {
+      display: none;
+    }
+
+    .lock-card {
+      width: min(92vw, 420px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 24px 18px;
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 14px 30px rgba(39, 7, 19, 0.45);
+      text-align: center;
+    }
+
+    .lock-card h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.6rem, 4vw, 2.1rem);
+      margin-bottom: 8px;
+    }
+
+    .lock-card p {
+      margin-bottom: 12px;
+    }
+
+    .lock-input {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .lock-input::placeholder {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .lock-btn {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .lock-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .lock-error {
+      display: none;
+      margin-top: 10px;
+      margin-bottom: 0;
+      color: #ffe3ea;
+      font-size: 0.95rem;
+    }
+
+    .lock-error.show {
+      display: block;
+    }
+
+    .card {
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      padding: 28px 22px 34px;
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .music-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .music-btn {
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--text-light);
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-width: 110px;
+    }
+
+    .music-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .spotify-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-radius: 999px;
+      padding: 7px 12px 7px 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .spotify-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #1db954;
+      position: relative;
+      animation: spin 3.6s linear infinite;
+      box-shadow: 0 4px 10px rgba(20, 95, 53, 0.45);
+    }
+
+    .spotify-icon::before,
+    .spotify-icon::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      border-top: 2px solid rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+    }
+
+    .spotify-icon::before {
+      top: 8px;
+      transform: rotate(-8deg);
+    }
+
+    .spotify-icon::after {
+      top: 13px;
+      transform: rotate(-9deg);
+    }
+
+    .nome {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: 0.03em;
+      text-align: center;
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: riseIn 1.2s ease forwards;
+    }
+
+    .sub {
+      text-align: center;
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      opacity: 0.9;
+      margin-bottom: 22px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+      margin: 18px 0 28px;
+    }
+
+    .text {
+      font-size: clamp(1.2rem, 2.8vw, 1.72rem);
+      line-height: 1.45;
+      font-family: "Cormorant Garamond", serif;
+      margin: 20px auto;
+      max-width: 680px;
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      text-shadow: 0 2px 14px rgba(79, 12, 34, 0.35);
+    }
+
+    .verse {
+      font-size: clamp(1.02rem, 2.25vw, 1.28rem);
+      line-height: 1.5;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      margin: 10px auto 18px;
+      max-width: 680px;
+      padding: 12px 14px;
+      border-left: 3px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    .verse.showText {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .text.showText {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 20px auto 10px;
+      max-width: 760px;
+    }
+
+    .foto-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 14px 28px rgba(62, 10, 27, 0.35);
+      opacity: 0;
+      transform: translateY(18px) scale(0.94);
+      transition: opacity 1s ease, transform 1s ease;
+      width: min(70vw, 290px);
+      margin: 16px auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .foto-wrap.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .foto {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.08) contrast(1.03);
+      transition: transform 0.8s ease;
+      object-position: center;
+    }
+
+    .foto-wrap:hover .foto {
+      transform: scale(1.06);
+    }
+
+    .caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px;
+      font-size: 0.95rem;
+      text-align: center;
+      background: linear-gradient(to top, rgba(56, 8, 24, 0.72), rgba(56, 8, 24, 0));
+    }
+
+    .foto-wrap.missing {
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.2), transparent 30%),
+        linear-gradient(160deg, rgba(130, 22, 56, 0.65), rgba(244, 126, 161, 0.35));
+    }
+
+    .foto-wrap.missing::before {
+      content: "❤️";
+      font-size: 2.2rem;
+      opacity: 0.8;
+    }
+
+    .final {
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      color: var(--paper);
+      letter-spacing: 0.02em;
+      margin-top: 24px;
+    }
+
+    .audio-hint {
+      margin-top: 22px;
+      font-size: 0.95rem;
+      opacity: 0.9;
+      display: none;
+    }
+
+    .audio-btn {
+      margin-top: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      color: var(--text-light);
+      background: rgba(255, 255, 255, 0.12);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(3px);
+    }
+
+    .audio-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .heart {
+      position: fixed;
+      top: -2rem;
+      z-index: 2;
+      color: #ff2f63;
+      opacity: 0.85;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear forwards;
+      text-shadow: 0 6px 12px rgba(100, 0, 28, 0.32);
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(240deg);
+        opacity: 0.15;
+      }
+    }
+
+    @keyframes riseIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        padding-top: 24px;
+      }
+
+      .card {
+        border-radius: 24px;
+        padding: 22px 16px 28px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .foto-wrap {
+        width: min(80vw, 280px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <div id="lockScreen" class="lock-screen" role="dialog" aria-modal="true" aria-label="Proteção por senha">
+    <div class="lock-card">
+      <h2>Surpresa para você ❤️</h2>
+      <p>Digite a senha para entrar</p>
+      <input id="passwordInput" class="lock-input" type="password" placeholder="Senha" autocomplete="off" />
+      <button id="unlockBtn" class="lock-btn" type="button">Entrar</button>
+      <p id="lockError" class="lock-error">Senha incorreta. Tente novamente.</p>
+    </div>
+  </div>
+
+  <audio id="bgm" autoplay preload="auto">
+    <source src="musica.mp3.mp4" type="audio/mp4" />
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+
+  <main id="romanticContent" class="container">
+    <section class="card">
+      <div class="music-controls">
+        <button id="playPauseBtn" class="music-btn" type="button">Play</button>
+        <span class="spotify-chip" aria-label="Spotify tocando">
+          <span class="spotify-icon" aria-hidden="true"></span>
+          Spotify vibe
+        </span>
+      </div>
+
+      <h1 class="nome">Pra você, Elivanda ❤️</h1>
+      <p class="sub">Uma carta em forma de momentos.</p>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <p id="text1" class="text">Eu queria te mostrar algo...</p>
+      <p id="text2" class="text">Algo que talvez eu nem consiga explicar direito...</p>
+
+      <div id="img1" class="foto-wrap" aria-label="Foto 1">
+        <img id="photo1" class="foto" src="foto1.jpg.jpeg" alt="Momento especial 1" />
+        <span class="caption">Tempo de colégio, comecinho de tudo.</span>
+      </div>
+
+      <p id="text3" class="text">Mas tudo começou lá atrás...</p>
+      <p id="text4" class="text">Quando eu nem imaginava o quanto você seria importante pra mim.</p>
+      <p id="verse1" class="verse">"O amor é paciente, o amor é bondoso."<br />- Bíblia Sagrada (1 Coríntios 13:4)</p>
+
+      <p id="text5" class="text">E com o tempo... tudo foi mudando.</p>
+      <p id="text6" class="text">Sem eu perceber, você foi se tornando parte de tudo.</p>
+
+
+      <div id="img2" class="foto-wrap" aria-label="Foto 2">
+        <img id="photo2" class="foto" src="foto2.jpg.jpeg" alt="Momento especial 2" />
+        <span class="caption">Nossa foto mais especial.</span>
+      </div>
+
+      <p id="text7" class="text">E hoje...</p>
+      <p id="text8" class="text">Eu olho pra gente e vejo o quanto valeu a pena.</p>
+      <p id="verse2" class="verse">"Acima de tudo, porém, revistam-se do amor, que é o elo perfeito."<br />- Bíblia Sagrada (Colossenses 3:14)</p>
+
+      <p id="text9" class="text">Você não é só alguém especial...</p>
+      <p id="text10" class="text">Você é a minha escolha todos os dias.</p>
+      <p id="verse3" class="verse">"Assim, eles já não são dois, mas sim uma só carne."<br />- Bíblia Sagrada (Mateus 19:6)</p>
+      <p id="text11" class="text final">Eu te amo ❤️</p>
+
+      <div id="audioHint" class="audio-hint" role="status" aria-live="polite">
+        Toque para iniciar a música:
+        <button id="audioBtn" class="audio-btn" type="button">Tocar música</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.body.classList.add("locked");
+
+    const ACCESS_PASSWORD = "amor2026";
+    const lockScreen = document.getElementById("lockScreen");
+    const passwordInput = document.getElementById("passwordInput");
+    const unlockBtn = document.getElementById("unlockBtn");
+    const lockError = document.getElementById("lockError");
+
+    const text1 = document.getElementById("text1");
+    const text2 = document.getElementById("text2");
+    const text3 = document.getElementById("text3");
+    const text4 = document.getElementById("text4");
+    const text5 = document.getElementById("text5");
+    const text6 = document.getElementById("text6");
+    const text7 = document.getElementById("text7");
+    const text8 = document.getElementById("text8");
+    const text9 = document.getElementById("text9");
+    const text10 = document.getElementById("text10");
+    const text11 = document.getElementById("text11");
+    const verse1 = document.getElementById("verse1");
+    const verse2 = document.getElementById("verse2");
+    const verse3 = document.getElementById("verse3");
+    const img1 = document.getElementById("img1");
+    const img2 = document.getElementById("img2");
+    const photo1 = document.getElementById("photo1");
+    const photo2 = document.getElementById("photo2");
+
+    const sequence = [
+      { el: text1, delay: 1200, className: "showText" },
+      { el: text2, delay: 3600, className: "showText" },
+      { el: img1, delay: 6000, className: "show" },
+      { el: text3, delay: 8500, className: "showText" },
+      { el: text4, delay: 10800, className: "showText" },
+      { el: verse1, delay: 13100, className: "showText" },
+      { el: text5, delay: 15700, className: "showText" },
+      { el: text6, delay: 17900, className: "showText" },
+      { el: img2, delay: 20300, className: "show" },
+      { el: text7, delay: 22700, className: "showText" },
+      { el: text8, delay: 24800, className: "showText" },
+      { el: verse2, delay: 27100, className: "showText" },
+      { el: text9, delay: 29600, className: "showText" },
+      { el: text10, delay: 31700, className: "showText" },
+      { el: verse3, delay: 33900, className: "showText" },
+      { el: text11, delay: 36300, className: "showText" }
+    ];
+    let sequenceStarted = false;
+
+    function iniciarSequencia() {
+      if (sequenceStarted) {
+        return;
+      }
+
+      sequenceStarted = true;
+      sequence.forEach(({ el, delay, className }) => {
+        setTimeout(() => el.classList.add(className), delay);
+      });
+    }
+
+    function aplicarFallbackFoto(img, wrap, aviso) {
+      const caption = wrap.querySelector(".caption");
+
+      function aplicar() {
+        img.style.display = "none";
+        wrap.classList.add("missing");
+        caption.textContent = aviso;
+      }
+
+      img.addEventListener("error", aplicar);
+
+      if (img.complete && img.naturalWidth === 0) {
+        aplicar();
+      }
+    }
+
+    aplicarFallbackFoto(photo1, img1, "Adicione a foto em: foto1.jpg.jpeg");
+    aplicarFallbackFoto(photo2, img2, "Adicione a foto em: foto2.jpg.jpeg");
+
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 18 + 12).toFixed(0) + "px";
+      heart.style.animationDuration = (Math.random() * 4 + 3).toFixed(1) + "s";
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7600);
+    }
+
+    setInterval(criarCoracao, 260);
+
+    const bgm = document.getElementById("bgm");
+    const audioHint = document.getElementById("audioHint");
+    const audioBtn = document.getElementById("audioBtn");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    function atualizarBotaoPlayPause() {
+      playPauseBtn.textContent = bgm.paused ? "Play" : "Pause";
+    }
+
+    function tentarTocarAudio() {
+      if (!bgm) {
+        return;
+      }
+
+      const playAttempt = bgm.play();
+      if (playAttempt && typeof playAttempt.catch === "function") {
+        playAttempt.catch(() => {
+          audioHint.style.display = "block";
+        });
+      }
+
+      atualizarBotaoPlayPause();
+    }
+
+    function desbloquearPagina() {
+      document.body.classList.remove("locked");
+      lockScreen.classList.add("hidden");
+      lockError.classList.remove("show");
+      iniciarSequencia();
+      tentarTocarAudio();
+    }
+
+    function validarSenha() {
+      const senhaDigitada = passwordInput.value.trim();
+
+      if (senhaDigitada === ACCESS_PASSWORD) {
+        desbloquearPagina();
+      } else {
+        lockError.classList.add("show");
+        passwordInput.select();
+      }
+    }
+
+    unlockBtn.addEventListener("click", validarSenha);
+    passwordInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        validarSenha();
+      }
+    });
+
+    audioBtn.addEventListener("click", () => {
+      bgm.play();
+      audioHint.style.display = "none";
+      atualizarBotaoPlayPause();
+    });
+
+    playPauseBtn.addEventListener("click", async () => {
+      if (bgm.paused) {
+        try {
+          await bgm.play();
+          audioHint.style.display = "none";
+        } catch (error) {
+          audioHint.style.display = "block";
+        }
+      } else {
+        bgm.pause();
+      }
+
+      atualizarBotaoPlayPause();
+    });
+
+    bgm.addEventListener("play", atualizarBotaoPlayPause);
+    bgm.addEventListener("pause", atualizarBotaoPlayPause);
+    atualizarBotaoPlayPause();
+  </script>
+</body>
+</html>
